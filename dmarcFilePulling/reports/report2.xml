@@ -1,0 +1,71 @@
+<feedback>
+  <report_metadata>
+    <org_name>outlook.com</org_name>
+    <email>dmarc@outlook.com</email>
+    <report_id>abcdef12345</report_id>
+    <date_range>
+      <begin>1714521600</begin>
+      <end>1714608000</end>
+    </date_range>
+  </report_metadata>
+
+  <policy_published>
+    <domain>company-domain.com</domain>
+    <adkim>s</adkim>
+    <aspf>s</aspf>
+    <p>reject</p>
+    <pct>100</pct>
+  </policy_published>
+
+  <!-- Legit service (SendGrid-like) -->
+  <record>
+    <row>
+      <source_ip>167.89.45.22</source_ip>
+      <count>300</count>
+      <policy_evaluated>
+        <disposition>none</disposition>
+        <dkim>pass</dkim>
+        <spf>pass</spf>
+      </policy_evaluated>
+    </row>
+    <identifiers>
+      <header_from>company-domain.com</header_from>
+    </identifiers>
+    <auth_results>
+      <dkim>
+        <domain>company-domain.com</domain>
+        <result>pass</result>
+      </dkim>
+      <spf>
+        <domain>sendgrid.net</domain>
+        <result>pass</result>
+      </spf>
+    </auth_results>
+  </record>
+
+  <!-- Spoof attempt (SPF pass via relay, DKIM fail) -->
+  <record>
+    <row>
+      <source_ip>102.129.145.19</source_ip>
+      <count>78</count>
+      <policy_evaluated>
+        <disposition>reject</disposition>
+        <dkim>fail</dkim>
+        <spf>pass</spf>
+      </policy_evaluated>
+    </row>
+    <identifiers>
+      <header_from>company-domain.com</header_from>
+    </identifiers>
+    <auth_results>
+      <dkim>
+        <domain>company-domain.com</domain>
+        <result>fail</result>
+      </dkim>
+      <spf>
+        <domain>relay-mailer.com</domain>
+        <result>pass</result>
+      </spf>
+    </auth_results>
+  </record>
+</feedback>

@@ -1,0 +1,72 @@
+<feedback>
+  <report_metadata>
+    <org_name>google.com</org_name>
+    <email>noreply-dmarc-support@google.com</email>
+    <report_id>1234567890</report_id>
+    <date_range>
+      <begin>1714521600</begin>
+      <end>1714608000</end>
+    </date_range>
+  </report_metadata>
+
+  <policy_published>
+    <domain>company-domain.com</domain>
+    <adkim>r</adkim>
+    <aspf>r</aspf>
+    <p>quarantine</p>
+    <sp>none</sp>
+    <pct>100</pct>
+  </policy_published>
+
+  <!-- Legitimate traffic -->
+  <record>
+    <row>
+      <source_ip>192.168.1.10</source_ip>
+      <count>120</count>
+      <policy_evaluated>
+        <disposition>none</disposition>
+        <dkim>pass</dkim>
+        <spf>pass</spf>
+      </policy_evaluated>
+    </row>
+    <identifiers>
+      <header_from>company-domain.com</header_from>
+    </identifiers>
+    <auth_results>
+      <dkim>
+        <domain>company-domain.com</domain>
+        <result>pass</result>
+      </dkim>
+      <spf>
+        <domain>company-domain.com</domain>
+        <result>pass</result>
+      </spf>
+    </auth_results>
+  </record>
+
+  <!-- Suspicious attacker -->
+  <record>
+    <row>
+      <source_ip>185.234.219.72</source_ip>
+      <count>45</count>
+      <policy_evaluated>
+        <disposition>quarantine</disposition>
+        <dkim>fail</dkim>
+        <spf>fail</spf>
+      </policy_evaluated>
+    </row>
+    <identifiers>
+      <header_from>company-domain.com</header_from>
+    </identifiers>
+    <auth_results>
+      <dkim>
+        <domain>malicious-domain.ru</domain>
+        <result>fail</result>
+      </dkim>
+      <spf>
+        <domain>malicious-domain.ru</domain>
+        <result>fail</result>
+      </spf>
+    </auth_results>
+  </record>
+</feedback>
